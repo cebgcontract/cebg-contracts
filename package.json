@@ -1,0 +1,31 @@
+{
+  "name": "cebg-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx truffle test",
+    "deploy:dev": "truffle migrate --network development",
+    "deploy:bsctest": "truffle migrate --network bsc_testnet",
+    "deploy:kcctest": "truffle migrate --network kcc_testnet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cebgcontract/cebg-contracts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cebgcontract/cebg-contracts/issues"
+  },
+  "homepage": "https://github.com/cebgcontract/cebg-contracts#readme",
+  "author": "cebg",
+  "license": "MIT",
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "@truffle/hdwallet-provider": "^2.0.0",
+    "chai": "^4.3.4",
+    "truffle": "^5.4.23"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.5.0"
+  }
+}
