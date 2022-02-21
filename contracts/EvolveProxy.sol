@@ -5,6 +5,9 @@ import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "./HasSignature.sol";
 
+// this contract will transfer ownership to BETimelockController after deployed
+// all onlyowner method would add timelock
+
 interface IBurnableERC721 is IERC721 {
     function burn(address owner, uint256 tokenId) external;
 }

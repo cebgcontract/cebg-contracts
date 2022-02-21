@@ -10,6 +10,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "./HasSignature.sol";
 
+// this contract will transfer ownership to BETimelockController after deployed
+// all onlyowner method would add timelock
 contract MarketPlace is Ownable, HasSignature {
     using SafeERC20 for IERC20;
     using SafeMath for uint256;
