@@ -16,6 +16,8 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
 
     mapping(bytes => bool) public usedSignatures;
 
+    address public executor;
+
     event TokenEvolved(
         uint256 indexed evolveEventId,
         address indexed owner,
@@ -24,11 +26,22 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
         uint256 chip
     );
 
+    constructor()
+        HasSignature("EvolveProxy", "1"){
+    }
 
     function init(address[3] calldata _erc721s) external initializer onlyOwner {
         hero = IBurnableERC721(_erc721s[0]);
         equip = IBurnableERC721(_erc721s[1]);
         chip = IBurnableERC721(_erc721s[2]);
+    }
+
+    /**
+     * @dev update executor
+     */
+    function updateExecutor(address account) external onlyOwner {
+        require(account != address(0), 'address can not be zero');
+        executor = account;
     }
 
     /**
@@ -45,6 +58,12 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
             tokenIds[0] > 0 && tokenIds[1] > 0, 
             "EvolveProxy: hero to evolve and burn can not be 0"
         );
+
+        require(
+            tokenIds[0] != tokenIds[1],
+            "EvolveProxy: hero to evolve and burn can not be same"
+        );
+        
         require(
             hero.ownerOf(tokenIds[0]) == msg.sender, 
             "EvolveProxy: not owner of this hero now"
@@ -61,7 +80,7 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
             tokenIds[2],
             saltNonce
         );
-        checkSigner(msg.sender, criteriaMessageHash, signature);
+        checkSigner(executor, criteriaMessageHash, signature);
         hero.burn(msg.sender, tokenIds[1]);
         if (tokenIds[2] > 0) {
             chip.burn(msg.sender, tokenIds[2]);
@@ -85,6 +104,11 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
         );
 
         require(
+            tokenIds[0] != tokenIds[1],
+            "EvolveProxy: equip to evolve and burn can not be same"
+        );
+
+        require(
             equip.ownerOf(tokenIds[0]) == msg.sender, 
             "EvolveProxy: current address is not owner of this equip now"
             );
@@ -100,7 +124,7 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
             tokenIds[2],
             saltNonce
         );
-        checkSigner(msg.sender, criteriaMessageHash, signature);
+        checkSigner(executor, criteriaMessageHash, signature);
         equip.burn(msg.sender, tokenIds[1]);
         if (tokenIds[2] > 0) {
             chip.burn(msg.sender, tokenIds[2]);
