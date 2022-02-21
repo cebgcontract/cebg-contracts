@@ -21,7 +21,8 @@ contract BEBoxMall is Ownable, HasSignature, TimelockController{
     constructor(
         address[] memory proposers, 
         address[] memory executors)
-        TimelockController(MIN_DELAY, proposers, executors){
+        TimelockController(MIN_DELAY, proposers, executors)
+        HasSignature("BEBoxMall", "1"){
         _minDelay = MIN_DELAY;
         address_initialized = false;
     }
@@ -79,7 +80,7 @@ contract BEBoxMall is Ownable, HasSignature, TimelockController{
             saltNonce
         );
 
-        checkSigner(userAddress, criteriaMessageHash, signature);
+        checkSigner712(userAddress, criteriaMessageHash, signature);
 
         IERC20 paymentToken = IERC20(paymentErc20);
         uint256 allowToPayAmount = paymentToken.allowance(
@@ -101,7 +102,7 @@ contract BEBoxMall is Ownable, HasSignature, TimelockController{
         emit BEBoxPaid(boxId, userAddress, _type, price, paymentErc20);
     }
 
-    function getMessageHash(
+    function getMessageHash(   
         uint256 _boxType,
         address _paymentErc20,
         uint256 _price,
@@ -109,7 +110,13 @@ contract BEBoxMall is Ownable, HasSignature, TimelockController{
     ) public pure returns (bytes32) {
         return
             keccak256(
-                abi.encodePacked(_boxType, _paymentErc20, _price, _saltNonce)
+                abi.encode(
+                    keccak256("set(uint256 item,address token,uint256 price,uint256 salt)"),
+                    _boxType, 
+                    _paymentErc20, 
+                    _price, 
+                    _saltNonce
+                    )
             );
     }
 

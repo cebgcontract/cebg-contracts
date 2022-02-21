@@ -36,6 +36,10 @@ contract MarketPlace is Ownable, HasSignature {
         uint256 fee
     );
 
+    constructor()
+        HasSignature("MarketPlace", "1"){
+    }
+
     function setFeeToAddress(address _feeToAddress) external onlyOwner {
         require(_feeToAddress != address(0), 'fee received address can not be zero');
         feeToAddress = _feeToAddress;
@@ -122,7 +126,7 @@ contract MarketPlace is Ownable, HasSignature {
             values[2]
         );
 
-        checkSigner(addresses[0], criteriaMessageHash, signature);
+        checkSigner712(addresses[0], criteriaMessageHash, signature);
 
         // check current ownership
         IERC721 nft = IERC721(addresses[1]);
@@ -185,7 +189,7 @@ contract MarketPlace is Ownable, HasSignature {
         );
     }
 
-    function getMessageHash(
+    function getMessageHash(   
         address _nftAddress,
         uint256 _tokenId,
         address _paymentErc20,
@@ -194,13 +198,14 @@ contract MarketPlace is Ownable, HasSignature {
     ) public pure returns (bytes32) {
         return
             keccak256(
-                abi.encodePacked(
+                abi.encode(
+                    keccak256("set(address nft,uint256 tokenId,address payToken,uint256 price,uint256 salt)"),
                     _nftAddress,
                     _tokenId,
                     _paymentErc20,
                     _price,
                     _saltNonce
-                )
+                    )
             );
     }
 }
