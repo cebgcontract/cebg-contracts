@@ -88,6 +88,7 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
         if (tokenIds[2] > 0) {
             chip.burn(msg.sender, tokenIds[2]);
         }
+        usedSignatures[signature] = true;
         emit TokenEvolved(evolveEventId, msg.sender, tokenIds[0], tokenIds[1], tokenIds[2]);
     }
 
@@ -132,6 +133,7 @@ contract EvolveProxy is Ownable, Initializable, HasSignature {
         if (tokenIds[2] > 0) {
             chip.burn(msg.sender, tokenIds[2]);
         }
+        usedSignatures[signature] = true;
         emit TokenEvolved(evolveEventId, msg.sender, tokenIds[0], tokenIds[1], tokenIds[2]);
     }
 
