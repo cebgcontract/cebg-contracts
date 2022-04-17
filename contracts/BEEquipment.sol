@@ -5,5 +5,5 @@ import "./BEBase.sol";
 // this contract will transfer ownership to BETimelockController after deployed
 // all onlyowner method would add timelock
 contract BEEquipment is BEBase{
-    constructor() ERC721("Crypto Elite's Equipment", "CEE") {}
+    constructor() ERC721("CRYPTO ELITE'S WEAPON", "WEAPON") {}
 }

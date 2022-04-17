@@ -12,7 +12,7 @@ contract BEGold is ERC20, ERC20Burnable, Pausable, Ownable {
 
     uint256 public constant INITIALIZED_CAP = 100000000 * 1e18;
 
-    constructor() ERC20("Crypto Elite's Gold", "CEG") {
+    constructor() ERC20("CRYPTO ELITE'S GOLD", "CEG") {
         _mint(msg.sender, INITIALIZED_CAP);
     }
 
