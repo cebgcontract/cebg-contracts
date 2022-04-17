@@ -11,7 +11,7 @@ abstract contract BEBase is ERC721, AccessControlEnumerable, ERC721Enumerable, O
 
     mapping(address => bool) public approvalWhitelists;
     mapping(uint256 => bool) public lockedTokens;
-    string private _baseTokenURI;
+    string private _baseTokenURI = "https://market.cebg.games/api/nft/info/";
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURN_ROLE = keccak256("BURN_ROLE");
 
