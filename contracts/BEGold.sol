@@ -10,21 +10,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  */
 contract BEGold is ERC20, ERC20Burnable, Pausable, Ownable {
 
-    uint256 public constant INITIALIZED_CAP = 100000000 * 1e18;
 
     constructor() ERC20("CRYPTO ELITE'S GOLD", "CEG") {
-        _mint(msg.sender, INITIALIZED_CAP);
     }
 
-    function pause() public onlyOwner {
+    function pause() external onlyOwner {
         _pause();
     }
 
-    function unpause() public onlyOwner {
+    function unpause() external onlyOwner {
         _unpause();
     }
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    function mint(address to, uint256 amount) external onlyOwner {
         _mint(to, amount);
     }
 
