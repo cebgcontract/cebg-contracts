@@ -141,8 +141,8 @@ contract BEBoxMall is Ownable, HasSignature, TimelockController{
      */
     function updateDelay(uint256 newDelay) external virtual override {
         require(msg.sender == address(this), "BEBoxMall: caller must be timelock");
-        require(newDelay >= MIN_DELAY);
-        require(newDelay <= MAX_DELAY);
+        require(newDelay >= MIN_DELAY, "BEBoxMall: newDelay must greater than or equal to MIN_DELAY");
+        require(newDelay <= MAX_DELAY, "BEBoxMall: newDelay must less than or equal to MAX_DELAY");
         emit MinDelayChange(_minDelay, newDelay);
         _minDelay = newDelay;
     }

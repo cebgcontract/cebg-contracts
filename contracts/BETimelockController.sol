@@ -36,8 +36,8 @@ contract BETimelockController is TimelockController {
      */
     function updateDelay(uint256 newDelay) external virtual override {
         require(msg.sender == address(this), "BETimelockController: caller must be timelock");
-        require(newDelay >= MIN_DELAY);
-        require(newDelay <= MAX_DELAY);
+        require(newDelay >= MIN_DELAY, "BETimelockController: newDelay must greater than or equal to MIN_DELAY");
+        require(newDelay <= MAX_DELAY, "BETimelockController: newDelay must less than or equal to MAX_DELAY");
         emit MinDelayChange(_minDelay, newDelay);
         _minDelay = newDelay;
     }
